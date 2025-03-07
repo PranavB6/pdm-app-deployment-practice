@@ -1,4 +1,4 @@
-name: "Docker Image CI"
+name: "Image CI"
 on:
     push:
         branches:
@@ -15,6 +15,15 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v4
+
+            - name: Docker meta
+              id: meta
+              uses: docker/metadata-action@v5
+              with:
+                images: name/app
+
+            - name: Show Tags
+              run: echo ${{ steps.meta.outputs.tags }}
 
             - name: Set up QEMU
               uses: docker/setup-qemu-action@v3
