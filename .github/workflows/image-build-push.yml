@@ -26,6 +26,7 @@ jobs:
                   type=raw,value=latest
                   type=sha
                   type=ref,event=branch
+                  type=ref,event=pr,suffix=-${{ github.event.pull_request.head.sha }}
 
             - name: Show Tags
               run: echo "${{ steps.meta.outputs.tags }}"
