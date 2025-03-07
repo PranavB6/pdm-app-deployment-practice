@@ -2,13 +2,11 @@
 name = "pdm-app-deployment-practice"
 version = "0.1.0"
 description = "Default template for PDM package"
-authors = [
-    {name = "PranavB6", email = "b.pranav.k@gmail.com"},
-]
+authors = [{ name = "PranavB6", email = "b.pranav.k@gmail.com" }]
 dependencies = ["fastapi[standard]>=0.115.8", "pytest>=8.3.4"]
 requires-python = "==3.13.*"
 readme = "README.md"
-license = {text = "MIT"}
+license = { text = "MIT" }
 
 
 [tool.pdm]
@@ -21,6 +19,4 @@ lint = "ruff ."
 fmt = "ruff format ."
 
 [dependency-groups]
-lint = [
-    "ruff>=0.9.6",
-]
+lint = ["ruff>=0.9.6"]
