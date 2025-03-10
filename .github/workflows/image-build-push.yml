@@ -24,7 +24,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            northamerica-northeast2-docker.pkg.dev/project-cicd-451516/registry/${{ github.repository }}
+            northamerica-northeast2-docker.pkg.dev/project-cicd-451516/local/pranav-app
           tags: |
             type=ref,event=branch
             type=ref,event=pr
