@@ -8,6 +8,7 @@ on:
   pull_request:
     branches:
       - main
+
 jobs:
   build-push:
     name: Build and Push Image
@@ -19,12 +20,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Authenticate to GCP
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: |
-            northamerica-northeast2-docker.pkg.dev/project-cicd-451516/local/pranav-app
+            ${{ secrets.GCP_ARTIFACT_REGISTRY_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_ARTIFACT_REGISTRY_REPOSITORY_NAME }}/${{ secrets.GCP_ARTIFACT_REGISTRY_IMAGE_NAME }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -33,16 +41,9 @@ jobs:
             type=semver,pattern={{major}}
             type=sha
 
-      - name: Authenticate to GCP
-        id: auth
-        uses: google-github-actions/auth@v2
-        with:
-          workload_identity_provider: "projects/964737764621/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider"
-          service_account: "artifact-registry-manager@project-cicd-451516.iam.gserviceaccount.com"
-
       - name: Configure Docker
         run: |
-          gcloud auth configure-docker northamerica-northeast2-docker.pkg.dev
+          gcloud auth configure-docker ${{ secrets.GCP_ARTIFACT_REGISTRY_REGION }}-docker.pkg.dev
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
