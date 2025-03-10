@@ -4,26 +4,10 @@ on:
         branches:
           - main
         tags:
-          - v*.*.*
+          - v*
     pull_request:
         branches:
           - main
-
-    workflow_dispatch:
-        inputs:
-            name:
-                type: choice
-                description: Who to greet
-                options: 
-                    - monalisa
-                    - cschleiden
-            message:
-                required: true
-            use-emoji:
-                type: boolean
-                description: Include 🎉🤣 emojis
-            environment:
-                type: environment
 jobs:
     build-push:
         name: Build and Push Image
@@ -46,9 +30,6 @@ jobs:
                   type=semver,pattern={{major}}.{{minor}}
                   type=semver,pattern={{major}}
                   type=sha
-
-            - name: Show Tags
-              run: echo "${{ steps.meta.outputs.tags }}"
 
             - name: Set up QEMU
               uses: docker/setup-qemu-action@v3
