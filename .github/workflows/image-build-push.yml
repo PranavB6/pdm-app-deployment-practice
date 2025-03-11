@@ -79,3 +79,4 @@ jobs:
             --platform=managed \
             --region=northamerica-northeast2 \
             --allow-unauthenticated
+            --service-account=${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
