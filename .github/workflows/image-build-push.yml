@@ -88,4 +88,4 @@ jobs:
             --region=northamerica-northeast2 \
             --allow-unauthenticated \
             --service-account=${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }} \
-            --port=8080
+            --port=8000
