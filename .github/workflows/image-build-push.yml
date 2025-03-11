@@ -74,9 +74,10 @@ jobs:
 
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy pranav-app \
-            --image=${{ steps.build-push.outputs.imageid }} \
-            --platform=managed \
-            --region=northamerica-northeast2 \
+          gcloud run deploy pranav-app
+            --image=${{ steps.build-push.outputs.imageid }}
+            --platform=managed
+            --region=northamerica-northeast2
             --allow-unauthenticated
             --service-account=${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
+            --port=8080
