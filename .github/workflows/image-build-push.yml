@@ -47,7 +47,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            # ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKERHUB_IMAGE_NAME }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKERHUB_IMAGE_NAME }}
             ${{ secrets.GCP_ARTIFACT_REGISTRY_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_ARTIFACT_REGISTRY_REPOSITORY_NAME }}/${{ env.GCP_ARTIFACT_REGISTRY_IMAGE_NAME }}
           tags: |
             type=ref,event=branch
