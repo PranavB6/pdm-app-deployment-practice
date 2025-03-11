@@ -74,8 +74,10 @@ jobs:
 
       - name: Deploy to Cloud Run
         run: |
+          IMAGE=$({{ steps.meta.outputs.tags }} | head -n 1)
+
           gcloud run deploy pranav-app
-            --image="${{ steps.meta.outputs.tags }} | head -n 1"
+            --image=${IMAGE}
             --platform=managed
             --region=northamerica-northeast2
             --allow-unauthenticated
