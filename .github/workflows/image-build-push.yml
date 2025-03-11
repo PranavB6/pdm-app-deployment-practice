@@ -74,7 +74,7 @@ jobs:
 
       - name: Get the first image tag
         run: |
-          echo "FIRST_TAG=$(echo '${{ steps.meta.outputs.tags }}' | head -n 1)" >> $GITHUB_ENV
+          echo "FIRST_TAG=$(echo '${{ steps.meta.outputs.tags }}' | tail -n 1)" >> $GITHUB_ENV
 
       - name: Debug First Tag
         run: |
