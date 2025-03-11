@@ -83,7 +83,7 @@ jobs:
           echo $IMAGE
 
           gcloud run deploy pranav-app 
-            --image=$IMAGE 
+            --image="$IMAGE" 
             --platform=managed 
             --region=northamerica-northeast2 
             --allow-unauthenticated 
