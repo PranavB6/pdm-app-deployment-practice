@@ -64,9 +64,18 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build and push
+        id: build-push
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy pranav-app \
+            --image=${{ steps.build-push.outputs.imageid }} \
+            --platform=managed \
+            --region=northamerica-northeast2 \
+            --allow-unauthenticated
