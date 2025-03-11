@@ -72,12 +72,19 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Get the first image tag
+        run: |
+          echo "FIRST_TAG=$(echo '${{ steps.meta.outputs.tags }}' | head -n 1)" >> $GITHUB_ENV
+
+      - name: Debug First Tag
+        run: echo "First Image Tag: $FIRST_TAG"
+      
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy pranav-app
-            --image=$(echo "${{ steps.meta.outputs.tags }}" | head -n 1)
-            --platform=managed
-            --region=northamerica-northeast2
-            --allow-unauthenticated
-            --service-account=${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
+          gcloud run deploy pranav-app \
+            --image=$FIRST_TAG \
+            --platform=managed \
+            --region=northamerica-northeast2 \
+            --allow-unauthenticated \
+            --service-account=${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }} \
             --port=8080
