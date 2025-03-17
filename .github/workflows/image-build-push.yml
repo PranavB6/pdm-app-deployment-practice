@@ -3,11 +3,6 @@ on:
   push:
     branches:
       - main
-    tags:
-      - v*
-  pull_request:
-    branches:
-      - main
 
 jobs:
   build-push:
@@ -72,15 +67,16 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Deploy to Cloud Run
+      - name: Deploy
         run: |
+          // Get the last tag from the list of tags
           IMAGE=$(echo '${{ steps.meta.outputs.tags }}' | tail -n 1)
           echo "$IMAGE"
 
-          gcloud run deploy pranav-app \
-            --image="$IMAGE" \
-            --platform=managed \
-            --region=northamerica-northeast2 \
-            --allow-unauthenticated \
-            --service-account=${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }} \
-            --port=8000
+          cd deploy
+
+          gcloud deply releases create release-${{ github.sha }} \
+            --project=${{ secrets.GCP_PROJECT_ID }} \
+            --region=${{ secrets.GCP_ARTIFACT_REGISTRY_REGION }} \
+            --delivery-pipeline="cloud-run-pipeline" \
+            --images="image=${IMAGE}"
