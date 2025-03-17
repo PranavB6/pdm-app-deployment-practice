@@ -73,9 +73,11 @@ jobs:
           IMAGE=$(echo '${{ steps.meta.outputs.tags }}' | tail -n 1)
           echo "$IMAGE"
 
+          SHORT_SHA=$(git rev-parse --short HEAD)
+
           cd deploy
 
-          gcloud deploy releases create release-${{ github.sha }} \
+          gcloud deploy releases create release-${SHORT_SHA} \
             --project="${{ secrets.GCP_PROJECT_ID }}" \
             --region="${{ secrets.GCP_ARTIFACT_REGISTRY_REGION }}" \
             --delivery-pipeline="cloud-run-pipeline" \
