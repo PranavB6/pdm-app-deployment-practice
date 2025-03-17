@@ -75,8 +75,8 @@ jobs:
 
           cd deploy
 
-          gcloud deply releases create release-${{ github.sha }} \
-            --project=${{ secrets.GCP_PROJECT_ID }} \
-            --region=${{ secrets.GCP_ARTIFACT_REGISTRY_REGION }} \
+          gcloud deploy releases create release-${{ github.sha }} \
+            --project="${{ secrets.GCP_PROJECT_ID }}" \
+            --region="${{ secrets.GCP_ARTIFACT_REGISTRY_REGION }}" \
             --delivery-pipeline="cloud-run-pipeline" \
             --images="image=${IMAGE}"
